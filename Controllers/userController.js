@@ -43,11 +43,11 @@ module.exports.userregistration = async (req, res) => {
                 data: newUser
             })
             const paymentidentity = new Payment({
-                user_id: newUser._id,
+                user_id: (newUser._id).toString(),
                 Paymentid: otpGenerator.generate(7, { digits: true, upperCaseAlphabets: true, specialChars: false })
             })
             const enter = paymentidentity.save();
-            console.log(paymentidentity)
+            console.log(paymentidentity._id)
         } catch (err) {
             res.status(500).json(err)
         }
