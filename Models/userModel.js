@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose")
+const { Schema, model, Mongoose } = require("mongoose")
 const jwt = require("jsonwebtoken");
 
 module.exports.User = model('User', Schema({
@@ -11,7 +11,7 @@ module.exports.User = model('User', Schema({
     },
     number: { type: Number, required: true, unique: true },
     password: { type: String },
-    paymentId: { type: String }
+    paymentId: { type: Mongoose.Schema.Types.ObjectId, ref: Payment, index: true }
 }, { timestamps: true }))
 
 userSchema.methods.generateJWT = function () {
