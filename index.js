@@ -11,6 +11,7 @@ dotenv.config();
 
 //This is the Router Connect
 const userregistrationRouter = require("./Routers/userRouter")
+const paymentIDgenerateRouter = require("./Routers/paymentgenerateRouter")
 
 
 //middleware
@@ -32,7 +33,8 @@ mongoose.connect(process.env.DATABASEURL, {
 })
 
 //This is routes for all my requests
-app.use("/api/v1/registration", userregistrationRouter)
+app.use("/api/v1/registration", userregistrationRouter);
+app.use("/api/v1/paymentgenerate", paymentIDgenerateRouter);
 
 
 app.get("/", (req, res) => {
