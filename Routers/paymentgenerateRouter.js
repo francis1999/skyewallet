@@ -1,11 +1,12 @@
 const router = require('express').Router();
-const { paymentgenerate } = require("../Controllers/generatepaymentidController");
+const { paymentgenerate, Deletepaymentgenerate } = require("../Controllers/generatepaymentidController");
 
 
 
 
 
 router.post('/paymentgenerates', paymentgenerate);
+router.delete('/deletepaymentid/:id', Deletepaymentgenerate);
 
 
 

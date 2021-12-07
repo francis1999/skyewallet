@@ -49,3 +49,13 @@ module.exports.paymentgenerate = async (req, res) => {
     })
 }
 
+
+module.exports.Deletepaymentgenerate = async (req, res) => {
+
+    try {
+        await Payment.findByIdAndDelete(req.params.id)
+        res.status(200).json({ message: "Payment ID Deleted Successfully" })
+    } catch (err) {
+        res.status(500).json({ error: "Something Went Wrong" })
+    }
+}
