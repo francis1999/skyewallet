@@ -1,16 +1,17 @@
-const { User } = require("../Models/userModel");
+const User = require("../Models/userModel");
+const Payment = require("../Models/PaymentModel");
 const Validator = require('fastest-validator');
 const CryptoJS = require("crypto-js");
 const jwt = require("jsonwebtoken");
-const _ = require("lodash")
+const _ = require("lodash");
+const otpGenerator = require('otp-generator');
 
 
 module.exports.userregistration = async (req, res) => {
     const schema = {
         password: { type: "string", optional: false, max: "100", empty: false, },
         name: { type: "string", optional: false, empty: false, },
-        paymentId: { type: "string", optional: false, empty: false, unique: true },
-        number: { type: "string", optional: false, empty: false, unique: true },
+        number: { type: "string", optional: false, empty: false },
         email: { type: "string", optional: false, empty: false },
 
     }
@@ -27,23 +28,33 @@ module.exports.userregistration = async (req, res) => {
         if (user) {
             return res.status(401).json("Email Already Exist");
         }
-
-        const newAdmin = new AdminAuth({
-            fullname: req.body.fullname,
-            role: req.body.role,
+        const newUser = new User({
+            name: req.body.name,
             number: req.body.number,
             email: req.body.email,
             password: CryptoJS.AES.encrypt(req.body.password, process.env.PASSWORDECRPY).toString(),
         })
+
         try {
-            const saveAdmin = newAdmin.save();
+            const saveUser = newUser.save();
+
             res.status(201).json({
                 message: "Success",
-                data: newAdmin
+                data: newUser
             })
+            const paymentidentity = new Payment({
+                user_id: newUser._id,
+                Paymentid: otpGenerator.generate(7, { digits: true, upperCaseAlphabets: true, specialChars: false })
+
+            })
+            const enter = paymentidentity.save();
+            console.log(paymentidentity)
         } catch (err) {
             res.status(500).json(err)
         }
+
+
+
     })
 }
 

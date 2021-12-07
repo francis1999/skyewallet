@@ -1,24 +1,27 @@
-const { Schema, model, Mongoose } = require("mongoose")
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+const Payment = require("../Models/PaymentModel");
 
-module.exports.User = model('User', Schema({
+const UserSchema = mongoose.Schema({
     name: { type: String, required: true },
-    email: {
-        type: String, required: true, unique: true, validate: {
-            validator: () => Promise.resolve(false),
-            message: 'Email validation failed'
-        }
-    },
-    number: { type: Number, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    number: { type: String, required: true },
     password: { type: String },
-    paymentId: { type: Mongoose.Schema.Types.ObjectId, ref: Payment, index: true }
-}, { timestamps: true }))
+    /*  payment_id: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: Payment,
+         index: true,
+         default: "98798uhuhbkj"
+     } */
+}, { timestamps: true })
 
-userSchema.methods.generateJWT = function () {
+/* UserSchema.methods.generateJWT = function () {
     const token = jwt.sign({
         _id: this._id,
         paymentId: this.paymentId
 
     }, process.env.SECRET_KEY, { expiresIn: "7d" });
     return token;
-}
+} */
+
+module.exports = mongoose.model("User", UserSchema)

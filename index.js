@@ -10,7 +10,7 @@ dotenv.config();
 
 
 //This is the Router Connect
-
+const userregistrationRouter = require("./Routers/userRouter")
 
 
 //middleware
@@ -32,7 +32,7 @@ mongoose.connect(process.env.DATABASEURL, {
 })
 
 //This is routes for all my requests
-
+app.use("/api/v1/registration", userregistrationRouter)
 
 
 app.get("/", (req, res) => {
