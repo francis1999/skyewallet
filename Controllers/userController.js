@@ -45,7 +45,6 @@ module.exports.userregistration = async (req, res) => {
             const paymentidentity = new Payment({
                 user_id: newUser._id,
                 Paymentid: otpGenerator.generate(7, { digits: true, upperCaseAlphabets: true, specialChars: false })
-
             })
             const enter = paymentidentity.save();
             console.log(paymentidentity)
@@ -58,9 +57,9 @@ module.exports.userregistration = async (req, res) => {
     })
 }
 
-module.exports.authlogin = async (req, res) => {
+module.exports.userlogin = async (req, res) => {
     try {
-        const user = await AdminAuth.findOne({ email: req.body.email })
+        const user = await User.findOne({ email: req.body.email })
         !user && res.status(401).json("Wrong Email")
         const hashedPassword = CryptoJS.AES.decrypt(
             user.password,
@@ -73,7 +72,6 @@ module.exports.authlogin = async (req, res) => {
         //accesstoken generator
         const accessToken = jwt.sign({
             id: user._id,
-            role: user.role
         }, process.env.SECRETK, { expiresIn: "1d" });
 
         const { password, ...others } = user._doc;
