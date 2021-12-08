@@ -59,3 +59,35 @@ module.exports.Deletepaymentgenerate = async (req, res) => {
         res.status(500).json({ error: "Something Went Wrong" })
     }
 }
+
+
+module.exports.searchPaymentID = async (req, res) => {
+    let query = {};
+
+    const { Paymentidpage } = req.body
+    const Paymentid = await Payment.find({
+        Paymentid: req.body.Paymentid
+    });
+
+    Payment.findOne({ Paymentid }).exec((err, user) => {
+        try {
+
+            if (req.query.Paymentid) {
+                query.$or = [
+                    { "Paymentid": { $regex: req.query.Paymentid } },
+                ]
+                let diplayPaymentID = Payment.find(query)
+                    .populate('user_id')
+                return res.status(200).json({
+                    message: "success",
+                    data: {
+                        data: diplayPaymentID,
+                    }
+                })
+            }
+        } catch {
+            return res.status(404).json("User not found");
+        }
+
+    })
+}

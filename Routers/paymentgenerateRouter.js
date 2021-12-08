@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { paymentgenerate, Deletepaymentgenerate } = require("../Controllers/generatepaymentidController");
+const { paymentgenerate, Deletepaymentgenerate, searchPaymentID } = require("../Controllers/generatepaymentidController");
 
 
 
@@ -7,6 +7,7 @@ const { paymentgenerate, Deletepaymentgenerate } = require("../Controllers/gener
 
 router.post('/paymentgenerates', paymentgenerate);
 router.delete('/deletepaymentid/:id', Deletepaymentgenerate);
+router.get('/searchPaymentID', searchPaymentID);
 
 
 
