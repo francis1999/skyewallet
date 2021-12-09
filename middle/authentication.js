@@ -18,4 +18,4 @@ const verifyToken = (req, res, next) => {
 
 
 
-module.exports = { verifyToken, verifyTokenwithAuthorization, verifyTokenwithAdmin }
+module.exports = { verifyToken }
