@@ -12,7 +12,6 @@ const otpGenerator = require('otp-generator');
 module.exports.paymentgenerate = async (req, res) => {
     const schema = {
         user_id: { type: "string", optional: false, max: "100", empty: false, },
-
     }
     const v = new Validator();
     const validationResponse = v.validate(req.body, schema)
@@ -91,3 +90,5 @@ module.exports.searchPaymentID = async (req, res) => {
 
     })
 }
+
+
